@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cavitysearch.demo.DemoAppView">
+  	<children>
+  	<ToolBar xmlns:fx="http://javafx.com/fxml">
+  		<items>
+        	<TextField fx:id="searchField" maxWidth="1.7976931348623157E308" promptText="Search" />
+  	</items>
+	</ToolBar>
+	<VBox fx:id="content" spacing="5.0">
+		<padding>
+			<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+		</padding>
+		<children><HBox>
+<children><Label text="Hello" />
+</children></HBox><Separator prefWidth="200.0" />
+	        <Button mnemonicParsing="false" text="Add" />
+	        <Button mnemonicParsing="false" text="Remove" />
+		</children>
+	</VBox>
+  </children>
+  <padding>
+    <Insets top="5.0" />
+  </padding>
+</VBox>
