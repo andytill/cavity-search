@@ -45,7 +45,7 @@ public class DemoApp extends javafx.application.Application {
         Scene scene;
         
         scene = new Scene(stack);
-        stage.setTitle("Flow List View Demo");
+        stage.setTitle("Cavity Search Demo");
         stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
