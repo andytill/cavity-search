@@ -1,5 +1,8 @@
 package cavitysearch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,15 +19,19 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 public class CavitySearch {
-    
-    private final SimpleStringProperty searchString;
 
     private final ObservableList<Node> overlays;
+    
+    private final List<AutoCloseable> closables;
+    
+    private final SimpleStringProperty searchString;
 
     private Parent root;
 
     public CavitySearch() {
         overlays = FXCollections.observableArrayList();
+        
+        closables = new ArrayList<AutoCloseable>();
 
         searchString = new SimpleStringProperty();
         searchString.addListener(new InvalidationListener() {
@@ -35,7 +42,7 @@ public class CavitySearch {
     }
     
     public void search() {
-        overlays.clear();
+        clearOverlays();
 
         final String search = searchString.get();
         
@@ -53,23 +60,44 @@ public class CavitySearch {
                 
                 if(isMatch(text)) {
                     final Rectangle r = provideOverlayNode();
-                    setRectBounds(r, text.localToScene(text.getBoundsInLocal()));
                     
-                    text.boundsInLocalProperty().addListener(new ChangeListener<Bounds>() {
+                    final ChangeListener<Bounds> boundsListener = new ChangeListener<Bounds>() {
                         @Override
                         public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds bounds) {
                             setRectBounds(r, text.localToScene(text.getBoundsInLocal()));
-                        }});
+                        }};
+
+                    setRectBounds(r, text.localToScene(text.getBoundsInLocal()));
+                        
+                    text.boundsInLocalProperty().addListener(boundsListener);
 
                     overlays.add(r);
+                    
+                    closables.add(new AutoCloseable() {
+                        @Override
+                        public void close() throws Exception {
+                            text.boundsInLocalProperty().removeListener(boundsListener);
+                        }});
                 }
                 
                 return null;
-            }
-
-            private boolean isMatch(final Text text) {
-                return text.getText().contains(searchString.get());
             }});
+    }
+
+    private void clearOverlays() {
+        overlays.clear();
+        
+        for (AutoCloseable c : closables) {
+            try {
+                c.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private boolean isMatch(Text text) {
+        return text.getText().contains(searchString.get());
     }
 
     private Rectangle provideOverlayNode() {
