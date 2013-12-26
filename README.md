@@ -1,6 +1,8 @@
 #Cavity Search
 
-Cavity Search is a UI search library for any JavaFX UI.  Given a node instance, Cavity Search will go through the nodes hierarchy, finding all text.  When it finds a text match it will create a highlight node that can be added to your scene.
+Cavity Search reproduces the web browser **find** behaviour for any JavaFX UI.  The screen capture below demonstrates Cavity Search using the search input to highlight text in a variety of standard controls.
+
+![Capture](http://24.media.tumblr.com/163d610445cbc79d0903a293db001a5d/tumblr_myf2usVukl1stq9oxo1_400.gif)
 
 For usage, check out [DemoApp.java](https://github.com/andytill/cavity-search/blob/master/src/main/java/cavitysearch/demo/DemoApp.java).
 
