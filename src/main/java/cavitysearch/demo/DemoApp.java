@@ -26,21 +26,24 @@ public class DemoApp extends javafx.application.Application {
         Parent root = (Parent) fxmlLoader.load();
         DemoAppView controller = fxmlLoader.getController();
         
-        CavitySearch cavitySearch;
+        CavitySearch cavitySearch = new CavitySearch();
         
-        cavitySearch = new CavitySearch();
+        // all given nodes will be searched including the search text field if 
+        // you give the actual scene root
         cavitySearch.setRoot(controller.getContent());
         cavitySearch.searchStringProperty().bindBidirectional(controller.searchTextProperty());
         
-        Group overlayGroup;
+        Group overlayGroup = new Group();
         
-        overlayGroup = new Group();
+        // if the group has a "managed" layout, the overlay nodes will be given
+        // the wrong coordinates
         overlayGroup.setManaged(false);
+        
+        // by binding the groups children to the search overlays, the overlay nodes
+        // will be automatically added to the scene
         bindContentBidirectional(overlayGroup.getChildren(), cavitySearch.getOverlays());
         
-        StackPane stack;
-        
-        stack = new StackPane(root, overlayGroup);
+        StackPane stack = new StackPane(root, overlayGroup);
         
         Scene scene;
         

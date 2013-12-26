@@ -7,7 +7,7 @@
 
 <VBox prefHeight="-1.0" prefWidth="-1.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cavitysearch.demo.DemoAppView">
   	<children>
-  	<ToolBar xmlns:fx="http://javafx.com/fxml">
+  	<ToolBar fx:id="toolbar" xmlns:fx="http://javafx.com/fxml">
   		<items>
         	<TextField fx:id="searchField" maxWidth="1.7976931348623157E308" promptText="Search" />
   	</items>
@@ -20,7 +20,7 @@
 <children><Label text="Hello" />
 </children></HBox><Separator prefWidth="200.0" />
 	        <Button mnemonicParsing="false" text="Add" />
-	        <Button mnemonicParsing="false" text="Remove" />
+	        <Button mnemonicParsing="false" text="Remove" /><TextField /><TextArea prefHeight="200.0" prefWidth="200.0" />
 		</children>
 	</VBox>
   </children>

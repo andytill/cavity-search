@@ -36,6 +36,11 @@ public class CavitySearch {
     
     public void search() {
         overlays.clear();
+
+        final String search = searchString.get();
+        
+        if("".equals(search))
+            return;
         
         NodeIterator.iterate(root, new Callback<Node, Void>() {
             @Override
@@ -46,20 +51,24 @@ public class CavitySearch {
                 
                 final Text text = ((Text) n);
                 
-                if(text.getText().equals(searchString.get())) {
+                if(isMatch(text)) {
                     final Rectangle r = provideOverlayNode();
                     setRectBounds(r, text.localToScene(text.getBoundsInLocal()));
                     
-                    text.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+                    text.boundsInLocalProperty().addListener(new ChangeListener<Bounds>() {
                         @Override
                         public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds bounds) {
-                            setRectBounds(r, bounds);
+                            setRectBounds(r, text.localToScene(text.getBoundsInLocal()));
                         }});
 
                     overlays.add(r);
                 }
                 
                 return null;
+            }
+
+            private boolean isMatch(final Text text) {
+                return text.getText().contains(searchString.get());
             }});
     }
 
@@ -69,8 +78,10 @@ public class CavitySearch {
         r = new Rectangle();
         r.setFill(Color.YELLOW);
         r.setOpacity(0.35d);
-        r.setManaged(false);
+        
+        // make sure the overlays do not consume mouse events!
         r.setMouseTransparent(true);
+        
         return r;
     }
 
